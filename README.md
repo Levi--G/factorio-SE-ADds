@@ -22,17 +22,21 @@ Methods of planting:
 
 ## Weapons
 
-I think the piledriver is unnessesary expensive, especially if you think about how little you actually need to do damage from space irl. So i made a marauder missle compatible with weapon delivery cannons. the idea was to make one capsule that would launch 20 small missles capable of only killing one target, but after research it didn't seem possible so i made instead a recipe to make 20 missles from one capsule and the ingredients. they need to be launched individually but do so at a very rapid pace to compensate. These are great for wiping the worm leftovers after nuking from orbit. There is also a variant that plants trees in case you want to start reforesting early or use them at your borders without the nukes so they also stop pollution.
+I think the piledriver is unnessesary expensive, especially if you think about how little you actually need to do damage from space irl. So i made a few missles compatible with weapon delivery cannons:
+- Marauder missle: small fast-firing and cheap missle, good on auto targetting
+- Treeplanting Marauder: plants a few trees to assert dominance over your enemies
+- Jericho missle: Large cluster missile with 100 homing payloads Tony Stark would be proud of
 
 ## Recipes
 
 This mod also adds alternative recipes for iron ignots and copper ignots from plates. The recipes don't accept production modules to prevent cheating and it still is less efficient that making with pyroflux. They are just so you can put leftover plates from certain recipes back on the ignot belt/lines. For instance if you get rid of scrap you get ores, but unless you have pyroflux present you can't make ignots even at a bad rate thus needing sepparate lines or trains. This fixes that.
 
+It also adds an alternative FOGBANK recipe to allow creating bigger true nukes earlier at a bigger cost.
 
 ## Thanks to
 
-Bio Industries (by ) for 2 images/assemblers i used (farm and cokery): 
-Space Explorateion (by ) modified the piledriver recipe for marauder missle: 
+Bio Industries (by TheSAguy) for 2 images/assemblers i used (farm and cokery).
+Space Explorateion (by Earendel) modified the piledriver recipe and scanner code for missles.
 
 These people from Discord who helped me during the development (in no particular order):
 - justarandomgeek
@@ -46,3 +50,4 @@ These people from Discord who helped me during the development (in no particular
 - Rseding91
 - Erythion
 - SpeckledFleebeedoo
+- _codegreen

@@ -11,16 +11,23 @@ local constants = {
     fluid_ammonia = "sead-ammonia",
     weapon_maraudermissleWH = "sead-marauder-missle-WH",
     weapon_maraudermissle = "sead-marauder-missle",
+    weapon_jerichoWH = "sead-jericho-missle-WH",
+    weapon_jerichomissle = "sead-jericho-missle",
+    weapon_jerichopartWH = "sead-jericho-part-missle",
+    weapon_jericholauncher = "sead-jericho-launcher",
     weapon_maraudertreemissleWH = "sead-marauder-tree-missle-WH",
     weapon_maraudertreemissle = "sead-marauder-tree-missle",
     weapon_treenukeWH = "sead-treenuke-WH",
     weapon_treenuke = "sead-treenuke",
     recipe_tree_to_wood = "tree-wood",
     recipe_decorative_trees = "decorative-trees",
-    recipe_wood_to_coal="wood-coal",
+    recipe_wood_to_coal = "wood-coal",
     assembler_farm = "sead-farm",
     assembler_cokery = "sead-cokery",
     category_farm = "sead-farm-crafting",
-    category_cokery = "sead-cokery-smelting"
+    category_cokery = "sead-cokery-smelting",
+    effect_script_jericho = "sead-landjericho",
+    sound_jericho = "sead-jericho-sound",
+    sound_jericho_path = "__SE-ADds__/sound/jericho.ogg"
 }
 return constants

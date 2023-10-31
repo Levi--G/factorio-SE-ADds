@@ -19,7 +19,7 @@ for tree_name, tree in pairs(data.raw.tree) do
             stack_size = 50,
             fuel_value = "8MJ",
             fuel_category = "chemical"
-        }--[[@as data.ItemPrototype]])
+        } --[[@as data.ItemPrototype]])
         table.insert(results, {
             name = tree_name,
             amount = 1
@@ -41,7 +41,21 @@ data:extend({
         icon_size = 32,
         subgroup = "raw-material",
         energy_required = treeamount * 5
-    }--[[@as data.RecipePrototype]]
+    } --[[@as data.RecipePrototype]]
+})
+
+data:extend({
+    {
+        type = "sound",
+        name = constants.sound_jericho,
+        aggregation = { max_count = 5, remove = true },
+        variations = {
+            {
+                filename = constants.sound_jericho_path,
+                volume = 0.7
+            },
+        }
+    },
 })
 
 require("prototypes/items")

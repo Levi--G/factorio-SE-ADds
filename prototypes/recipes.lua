@@ -327,15 +327,15 @@ end
         name = constants.weapon_maraudermissle,
         icon = "__SE-ADds__/graphics/missles.png",
         icon_size = 64,
-        energy_required = 5,
+        energy_required = 10,
         ingredients = {
-            { "rocket-control-unit",               1 },
-            { "explosives",                        40 },
-            { "steel-plate",                       10 },
+            { "rocket-control-unit",               2 },
+            { "explosives",                        80 },
+            { "steel-plate",                       20 },
             { "se-delivery-cannon-weapon-capsule", 1 }
         },
         result = constants.weapon_maraudermissle,
-        result_count = 20,
+        result_count = 40,
         order = "b[bi]",
     },
     {
@@ -352,6 +352,42 @@ end
         energy_required = 1,
         ingredients = {
             { name = constants.weapon_maraudermissle, amount = 1 }
+        },
+        requester_paste_multiplier = 1,
+        category = "delivery-cannon-weapon",
+        hide_from_player_crafting = true,
+        allow_decomposition = false
+    },
+    {
+        type = "recipe",
+        name = constants.weapon_jerichomissle,
+        icon = "__SE-ADds__/graphics/missles.png",
+        icon_size = 64,
+        energy_required = 20,
+        ingredients = {
+            { "rocket-control-unit",           1 },
+            { "explosives",                    2 },
+            { "se-aeroframe-scaffold",         4 },
+            { constants.weapon_maraudermissle, 100 }
+        },
+        result = constants.weapon_jerichomissle,
+        result_count = 1,
+        order = "b[bi]",
+    },
+    {
+        type = "recipe",
+        name = "se-delivery-cannon-weapon-pack-" .. constants.weapon_jerichoWH,
+        icon = "__SE-ADds__/graphics/missles.png",
+        icon_size = 64,
+        results = {
+            {
+                type = "item",
+                name = "se-delivery-cannon-weapon-package-" .. constants.weapon_jerichoWH,
+                amount = 1
+            } },
+        energy_required = 20,
+        ingredients = {
+            { name = constants.weapon_jerichomissle, amount = 1 }
         },
         requester_paste_multiplier = 1,
         category = "delivery-cannon-weapon",
@@ -407,7 +443,7 @@ end
         },
         result = constants.weapon_treenuke,
         order = "b[bi]",
-        allow_as_intermediate = false,
+        allow_as_intermediate = false
     },
     {
         type = "recipe",
@@ -430,13 +466,39 @@ end
         allow_decomposition = false
     }
 } --[[@as data.RecipePrototype[] ]])
-
+if (data.raw.item["FOGBANK"]) then
+    data:extend({
+        {
+            type = "recipe",
+            name = "FOGBANK alt",
+            category = "chemistry",
+            energy_required = 30,
+            ingredients = {
+                { "se-aeroframe-scaffold", 4 },
+                { "se-holmium-cable",      20 },
+                { "se-heavy-girder",       12 },
+                { "plastic-bar",           10 },
+                { "processing-unit",       16 },
+                { type = "fluid",          name = "se-pyroflux", amount = 100 }
+            },
+            result = "FOGBANK",
+            crafting_machine_tint =
+            {
+                primary = { r = 0.965, g = 0.482, b = 0.338, a = 1.000 },    -- #f67a56ff
+                secondary = { r = 0.831, g = 0.560, b = 0.222, a = 1.000 },  -- #d38e38ff
+                tertiary = { r = 0.728, g = 0.818, b = 0.443, a = 1.000 },   -- #b9d070ff
+                quaternary = { r = 0.939, g = 0.763, b = 0.191, a = 1.000 }, -- #efc230ff
+            }
+        }
+    })
+end
 local recipes = {
     constants.fluid_hydrogen,
     constants.fluid_ammonia,
     constants.fluid_phosphates,
     constants.item_potash,
-    constants.item_fertilizer
+    constants.item_fertilizer,
+    "FOGBANK alt"
 }
 for _, recipe in pairs(recipes) do
     for i, module in pairs(data.raw.module) do
