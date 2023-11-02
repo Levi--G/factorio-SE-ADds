@@ -27,7 +27,15 @@ local constants = {
     category_farm = "sead-farm-crafting",
     category_cokery = "sead-cokery-smelting",
     effect_script_jericho = "sead-landjericho",
-    sound_jericho = "sead-jericho-sound",
-    sound_jericho_path = "__SE-ADds__/sound/jericho.ogg"
+    sound_jericho = "sead-sound-jericho",
+    sound_rip = "sead-sound-rip",
+    sound_rip1 = "sead-sound-rip1",
+    sound_rip2 = "sead-sound-rip2",
+    sound_rip3 = "sead-sound-rip3",
+    setting_treesys="sead-treesys",
+    setting_weaponsys="sead-weaponsys",
+    setting_ingotsys="sead-ingotsys",
+    setting_fogbanksys="sead-fogbanksys",
+    setting_soundsys="sead-soundsys",
 }
 return constants

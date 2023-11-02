@@ -323,7 +323,7 @@ script.on_event(defines.events.on_trigger_created_entity, function(eventdata)
         surface.create_entity({
             name = constants.weapon_jericholauncher,
             position = launcher.position,
-            target = { launcher.position.x, launcher.position.y + (remaining/5) },
+            target = { launcher.position.x, launcher.position.y + (remaining / 5) },
             speed = 0.2,
             direction = defines.direction.south
         })
@@ -627,37 +627,6 @@ function circle_next(state)
     return { x = x, y = y }
 end
 
--- script.on_event(defines.events.on_script_trigger_effect, function(eventdata)
---     -- if (eventdata.effect_id == constants.effect_script_jericho) then
---     --     local surface = game.get_surface(eventdata.surface_index)
---     --     if (surface == nil) then
---     --         return
---     --     end
---     --     game.print("Trigger Jericho at " ..
---     --         serpent.line(eventdata.target_position) ..
---     --         " on " ..
---     --         surface.name ..
---     --         " from " ..
---     --         serpent.line(eventdata.source_position))
---     --     log(serpent.block(eventdata))
---     --     local startchunk = {
---     --         x = math.floor(eventdata.target_position.x / 32) * 32,
---     --         y = math.floor(eventdata.target_position.y / 32) * 32
---     --     }
---     --     table.insert(global.jericho, {
---     --         position = startchunk,
---     --         remaining = 100,
---     --         radius = 0,
---     --         octant = calc_circle_octant(0),
---     --         octant_n = 0,
---     --         index = 0,
---     --         last = nil,
---     --         surface = surface,
---     --     });
---     --     global.jerichohasitems = true
---     -- end
--- end)
-
 ---@param jericho Jericho
 function doNextJerichoChunk(jericho)
     local pos = circle_next(jericho)
@@ -681,19 +650,6 @@ function doNextJerichoChunk(jericho)
             return
         end
     end
-    -- for _, value in pairs(enemies) do
-    --     jericho.surface.create_entity({
-    --         name = constants.weapon_jerichopartWH,
-    --         position = { value.position.x + 100, value.position.y - 100 },
-    --         target = { value.position.x, value.position.y },
-    --         force = "player",
-    --         speed = 100 / 240
-    --     })
-    --     jericho.remaining = jericho.remaining - 1
-    --     if (jericho.remaining == 0) then
-    --         return
-    --     end
-    -- end
 end
 
 ---@param tick integer
@@ -719,10 +675,10 @@ function doJerichoOnTick(tick)
             ---@diagnostic disable-next-line: missing-fields
             item.surface.create_entity({
                 name = constants.weapon_jerichopartWH,
-                position = { item.position.x, item.position.y + (tick - item.starttick)*0.2 },
+                position = { item.position.x, item.position.y + (tick - item.starttick) * 0.2 },
                 target = launch,
                 force = "player",
-                speed = (100 / 240)/5,
+                speed = (100 / 240) / 5,
                 direction = defines.direction.south
             })
         else
@@ -737,3 +693,25 @@ function doJerichoOnTick(tick)
         ::continue::
     end
 end
+
+local soundsys = require("prototypes.soundsys.control")
+
+---@type table<string,fun(EventData)>[]
+local subsystems = { soundsys }
+---@type table<string,fun(EventData)[]>
+local events = {}
+
+for _, sys in pairs(subsystems) do
+    for eventname, fun in pairs(sys) do
+        events[defines.events[eventname]] = events[defines.events[eventname]] or {}
+        table.insert(events[defines.events[eventname]], fun)
+    end
+end
+for event, _ in pairs(events) do
+    script.on_event(event, function(eventdata)
+        for _, fun in pairs(events[event]) do
+            fun(eventdata)
+        end
+    end)
+end
+log(serpent.block(events))

@@ -1,4 +1,5 @@
 local constants = require("constants")
+local utils = require("utils")
 
 ---@type data.RecipePrototype[]
 data:extend({
@@ -146,118 +147,6 @@ data:extend({
         allow_decomposition = false,
         allow_as_intermediate = false
     },
-    --[[
-
-    function data_util.sub_icons(icon_main, ...)
-  local icons_sub = {...}
-  local results = {{ icon = icon_main, shift = {2, 0}, icon_size = 64 }}
-  for _, icon in pairs(icons_sub) do
-    table.insert(results, { icon = icon.icon or icon,
-                            scale = icon.scale or 0.25,
-                            shift = icon.shift or {-7, -7},
-                            icon_size = icon.icon_size or 64
-                          })
-  end
-  return results
-end
-{{ icon = data.raw.item["se-iron-ingot"].icon, shift = {2, 0}, icon_size = 64 },{ icon = data.raw.item["iron-plate"].icon,
-                            scale = 0.25,
-                            shift = {-7, -7},
-                            icon_size = 64,
-        icon_mipmaps = 4
-                          }}
-    ]] --
-    ----SE CHANGES
-    {
-        type = "recipe",
-        category = "casting",
-        name = "se-iron-ingot-from-plates",
-        results = {
-            { name = "se-iron-ingot", amount = 1 },
-        },
-        energy_required = 2,
-        ingredients = {
-            { name = "iron-plate", amount = 10 },
-        },
-        icons = {
-            {
-                icon = data.raw.item["se-iron-ingot"].icon,
-                shift = { 2, 0 },
-                icon_size = 64
-            },
-            {
-                icon = data.raw.item["iron-plate"].icon,
-                scale = 0.25,
-                shift = { -7, -7 },
-                icon_size = 64,
-                icon_mipmaps = 4
-            }
-        },
-        always_show_made_in = true,
-        allow_as_intermediate = false,
-        allow_decomposition = false,
-        order = "a-b-c"
-    },
-    {
-        type = "recipe",
-        category = "casting",
-        name = "se-copper-ingot-from-plates",
-        results = {
-            { name = "se-copper-ingot", amount = 1 },
-        },
-        energy_required = 2,
-        ingredients = {
-            { name = "copper-plate", amount = 10 },
-        },
-        icons = {
-            {
-                icon = data.raw.item["se-copper-ingot"].icon,
-                shift = { 2, 0 },
-                icon_size = 64
-            },
-            {
-                icon = data.raw.item["copper-plate"].icon,
-                scale = 0.25,
-                shift = { -7, -7 },
-                icon_size = 64,
-                icon_mipmaps = 4
-            }
-        },
-        always_show_made_in = true,
-        allow_as_intermediate = false,
-        allow_decomposition = false,
-        order = "a-c"
-    },
-    {
-        type = "recipe",
-        category = "casting",
-        name = "se-steel-ingot-from-plates",
-        results = {
-            { name = "se-steel-ingot", amount = 1 },
-        },
-        energy_required = 2,
-        ingredients = {
-            { name = "steel-plate", amount = 10 },
-        },
-        icons = {
-            {
-                icon = data.raw.item["se-steel-ingot"].icon,
-                shift = { 2, 0 },
-                icon_size = 64
-            },
-            {
-                icon = data.raw.item["steel-plate"].icon,
-                scale = 0.25,
-                shift = { -7, -7 },
-                icon_size = 64,
-                icon_mipmaps = 4
-            }
-        },
-        always_show_made_in = true,
-        allow_as_intermediate = false,
-        allow_decomposition = false,
-        order = "b-c"
-    },
     ----ENTITY
     {
         type = "recipe",
@@ -324,113 +213,6 @@ end
     },
     {
         type = "recipe",
-        name = constants.weapon_maraudermissle,
-        icon = "__SE-ADds__/graphics/missles.png",
-        icon_size = 64,
-        energy_required = 10,
-        ingredients = {
-            { "rocket-control-unit",               2 },
-            { "explosives",                        80 },
-            { "steel-plate",                       20 },
-            { "se-delivery-cannon-weapon-capsule", 1 }
-        },
-        result = constants.weapon_maraudermissle,
-        result_count = 40,
-        order = "b[bi]",
-    },
-    {
-        type = "recipe",
-        name = "se-delivery-cannon-weapon-pack-" .. constants.weapon_maraudermissleWH,
-        icon = "__SE-ADds__/graphics/missles.png",
-        icon_size = 64,
-        results = {
-            {
-                type = "item",
-                name = "se-delivery-cannon-weapon-package-" .. constants.weapon_maraudermissleWH,
-                amount = 1
-            } },
-        energy_required = 1,
-        ingredients = {
-            { name = constants.weapon_maraudermissle, amount = 1 }
-        },
-        requester_paste_multiplier = 1,
-        category = "delivery-cannon-weapon",
-        hide_from_player_crafting = true,
-        allow_decomposition = false
-    },
-    {
-        type = "recipe",
-        name = constants.weapon_jerichomissle,
-        icon = "__SE-ADds__/graphics/missles.png",
-        icon_size = 64,
-        energy_required = 20,
-        ingredients = {
-            { "rocket-control-unit",           1 },
-            { "explosives",                    2 },
-            { "se-aeroframe-scaffold",         4 },
-            { constants.weapon_maraudermissle, 100 }
-        },
-        result = constants.weapon_jerichomissle,
-        result_count = 1,
-        order = "b[bi]",
-    },
-    {
-        type = "recipe",
-        name = "se-delivery-cannon-weapon-pack-" .. constants.weapon_jerichoWH,
-        icon = "__SE-ADds__/graphics/missles.png",
-        icon_size = 64,
-        results = {
-            {
-                type = "item",
-                name = "se-delivery-cannon-weapon-package-" .. constants.weapon_jerichoWH,
-                amount = 1
-            } },
-        energy_required = 20,
-        ingredients = {
-            { name = constants.weapon_jerichomissle, amount = 1 }
-        },
-        requester_paste_multiplier = 1,
-        category = "delivery-cannon-weapon",
-        hide_from_player_crafting = true,
-        allow_decomposition = false
-    },
-    {
-        type = "recipe",
-        name = constants.weapon_maraudertreemissle,
-        icon = "__SE-ADds__/graphics/treemissles.png",
-        icon_size = 64,
-        energy_required = 5,
-        ingredients = {
-            { constants.weapon_maraudermissle, 20 },
-            { constants.item_tree,             256 }
-        },
-        result = constants.weapon_maraudertreemissle,
-        result_count = 20,
-        order = "b[bi]",
-        allow_as_intermediate = false,
-    },
-    {
-        type = "recipe",
-        name = "se-delivery-cannon-weapon-pack-" .. constants.weapon_maraudertreemissleWH,
-        icon = "__SE-ADds__/graphics/treemissles.png",
-        icon_size = 64,
-        results = {
-            {
-                type = "item",
-                name = "se-delivery-cannon-weapon-package-" .. constants.weapon_maraudertreemissleWH,
-                amount = 1
-            } },
-        energy_required = 1,
-        ingredients = {
-            { name = constants.weapon_maraudertreemissle, amount = 1 }
-        },
-        requester_paste_multiplier = 1,
-        category = "delivery-cannon-weapon",
-        hide_from_player_crafting = true,
-        allow_decomposition = false
-    },
-    {
-        type = "recipe",
         name = constants.weapon_treenuke,
         icon = "__SE-ADds__/graphics/treenuke.png",
         icon_size = 64,
@@ -466,39 +248,58 @@ end
         allow_decomposition = false
     }
 } --[[@as data.RecipePrototype[] ]])
-if (data.raw.item["FOGBANK"]) then
-    data:extend({
-        {
-            type = "recipe",
-            name = "FOGBANK alt",
-            category = "chemistry",
-            energy_required = 30,
-            ingredients = {
-                { "se-aeroframe-scaffold", 4 },
-                { "se-holmium-cable",      20 },
-                { "se-heavy-girder",       12 },
-                { "plastic-bar",           10 },
-                { "processing-unit",       16 },
-                { type = "fluid",          name = "se-pyroflux", amount = 100 }
-            },
-            result = "FOGBANK",
-            crafting_machine_tint =
-            {
-                primary = { r = 0.965, g = 0.482, b = 0.338, a = 1.000 },    -- #f67a56ff
-                secondary = { r = 0.831, g = 0.560, b = 0.222, a = 1.000 },  -- #d38e38ff
-                tertiary = { r = 0.728, g = 0.818, b = 0.443, a = 1.000 },   -- #b9d070ff
-                quaternary = { r = 0.939, g = 0.763, b = 0.191, a = 1.000 }, -- #efc230ff
-            }
-        }
-    })
+
+local items = {}
+local results = {}
+
+local treeamount = utils.tablelength(data.raw.tree)
+for tree_name, tree in pairs(data.raw.tree) do
+    if (not tree_name:find("dry") and not tree_name:find("dead") and not tree_name:find("waterGhost")) then
+        table.insert(items, {
+            type = "item",
+            name = tree_name,
+            icon = tree.icon,
+            icons = tree.icons,
+            icon_size = tree.icon_size,
+            subgroup = "raw-material",
+            order = "zzz[" .. tree_name .. "]",
+            place_result = tree_name,
+            stack_size = 50,
+            fuel_value = "8MJ",
+            fuel_category = "chemical"
+        } --[[@as data.ItemPrototype]])
+        table.insert(results, {
+            name = tree_name,
+            amount = 1
+        })
+    end
 end
+data:extend(items)
+data:extend({
+    {
+        type = "recipe",
+        name = constants.recipe_decorative_trees,
+        category = "crafting-with-fluid",
+        ingredients = {
+            { "wood",         4 * treeamount },
+            { type = "fluid", name = "water", amount = 100 * treeamount }
+        },
+        results = results,
+        icon = "__SE-ADds__/graphics/tree-sapling-icon.png",
+        icon_size = 32,
+        subgroup = "raw-material",
+        energy_required = treeamount * 5
+    } --[[@as data.RecipePrototype]]
+})
+
+
 local recipes = {
     constants.fluid_hydrogen,
     constants.fluid_ammonia,
     constants.fluid_phosphates,
     constants.item_potash,
     constants.item_fertilizer,
-    "FOGBANK alt"
+    constants.recipe_decorative_trees
 }
 for _, recipe in pairs(recipes) do
     for i, module in pairs(data.raw.module) do
