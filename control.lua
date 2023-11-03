@@ -9,40 +9,9 @@ local utils = require("utils")
 ---@field Count integer
 --todo
 
----@class Jericho
----@field chunkposition MapPosition.0
----@field position MapPosition.0
----@field remaining integer
----@field radius integer
----@field octant_n integer
----@field index integer
----@field octant MapPosition.0[]
----@field last MapPosition.0
----@field surface LuaSurface
----@field force LuaForce
----@field tochart BoundingBox[]
----@field enemies ForceIdentification[]
----@field tolaunch MapPosition.0[]
----@field phase integer
----@field starttick integer
-
 local ischunksscanning = false
 ---@type ChunkScan[]
 local chunkscans = {}
-
-function InitTreeTable()
-    ---@type Jericho[]
-    global.jericho = global.jericho or {}
-    global.jerichohasitems = global.jerichohasitems or false
-end
-
-script.on_init(function()
-    InitTreeTable()
-end)
-
-script.on_configuration_changed(function(data)
-    InitTreeTable()
-end)
 
 function endCurrentScan()
     local scan = chunkscans[1]
@@ -71,52 +40,8 @@ function doScanOnTick()
 end
 
 script.on_event(defines.events.on_tick, function(event)
-    if (global.jerichohasitems) then
-        doJerichoOnTick(event.tick)
-    end
     if (ischunksscanning) then
         doScanOnTick()
-    end
-end)
-
-script.on_event(defines.events.on_trigger_created_entity, function(eventdata)
-    if (eventdata.entity.name == constants.weapon_jericholauncher) then
-        local launcher = eventdata.entity
-        local surface = launcher.surface
-        local startchunk = {
-            x = math.floor(launcher.position.x / 32) * 32,
-            y = math.floor(launcher.position.y / 32) * 32
-        }
-        local force = launcher.force --[[@as LuaForce]]
-        local enemies = GetEnemies(force)
-        local remaining = 100
-        table.insert(global.jericho, {
-            chunkposition = startchunk,
-            remaining = remaining,
-            radius = 0,
-            octant = calc_circle_octant(0),
-            octant_n = 0,
-            index = 0,
-            last = nil,
-            surface = surface,
-            force = force,
-            enemies = enemies,
-            tolaunch = {},
-            tochart = {},
-            phase = 0,
-            position = launcher.position --[[@as MapPosition.0]],
-            starttick = eventdata.tick
-        } --[[@as Jericho]]);
-        global.jerichohasitems = true
-        ---@diagnostic disable-next-line: missing-fields
-        surface.create_entity({
-            name = constants.weapon_jericholauncher,
-            position = launcher.position,
-            target = { launcher.position.x, launcher.position.y + (remaining / 5) },
-            speed = 0.2,
-            direction = defines.direction.south
-        })
-        launcher.destroy()
     end
 end)
 
@@ -377,53 +302,12 @@ function doNextJerichoChunk(jericho)
     end
 end
 
----@param tick integer
-function doJerichoOnTick(tick)
-    if (#global.jericho == 0) then
-        global.jerichohasitems = false
-        return
-    end
-    for i = 1, #global.jericho do
-        local item = global.jericho[i]
-        if (item.phase == 0) then
-            while item.remaining > 0 do
-                doNextJerichoChunk(item)
-            end
-            item.phase = 1
-            goto continue
-        elseif (item.phase == 1) then
-            if (#item.tolaunch == 0) then
-                item.phase = 2
-                goto continue
-            end
-            local launch = table.remove(item.tolaunch) --[[@as MapPosition.0]]
-            ---@diagnostic disable-next-line: missing-fields
-            item.surface.create_entity({
-                name = constants.weapon_jerichopartWH,
-                position = { item.position.x, item.position.y + (tick - item.starttick) * 0.2 },
-                target = launch,
-                force = "player",
-                speed = (100 / 240) / 5,
-                direction = defines.direction.south
-            })
-        else
-            if (tick >= item.starttick + 1800) then
-                table.remove(global.jericho, i)
-                for _, chunk in pairs(item.tochart) do
-                    item.force.chart(item.surface, chunk)
-                end
-                return
-            end
-        end
-        ::continue::
-    end
-end
-
 local soundsys = require("prototypes.soundsys.control")
 local treesys = require("prototypes.treesys.control")
+local weaponsys = require("prototypes.weaponsys.control")
 
 ---@type table<string,fun(EventData)>[]
-local subsystems = { treesys, soundsys }
+local subsystems = { treesys, weaponsys, soundsys }
 ---@type table<integer,fun(EventData)[]>
 local events = {}
 

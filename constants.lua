@@ -4,7 +4,6 @@ local constants = {
     item_tree = "sead-tree",
     item_potash = "sead-potash",
     item_fertilizer = "sead-fertilizer",
-    -- trigger_tree_capsule = "sead-trigger-tcap",
     native_tree_dummy = "sead-nt-dummy",
     fluid_phosphates = "sead-acidulated-phosphates",
     fluid_hydrogen = "sead-hydrogen",

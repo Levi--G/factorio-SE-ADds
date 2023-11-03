@@ -16,7 +16,7 @@ function moistureToWater(crit)
     return crit
 end
 
-function InitTreeTable()
+function do_on_init()
     ---@type table<string,Tree>
     local trees = {}
     local tilecount = utils.tablelength(game.tile_prototypes)
@@ -213,8 +213,8 @@ if settings.startup[constants.setting_treesys].value then
             end
         end)
 
-    treesys.on_init = InitTreeTable
-    treesys.on_configuration_changed = InitTreeTable
+    treesys.on_init = do_on_init
+    treesys.on_configuration_changed = do_on_init
     treesys.on_tick = doSpawnOnTick
     treesys.on_built_entity = do_on_built_entity
     treesys.on_trigger_created_entity = do_on_trigger_created_entity
