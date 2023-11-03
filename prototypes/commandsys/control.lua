@@ -153,7 +153,7 @@ if settings.startup[constants.setting_soundsys].value then
                 doScanOnTick()
             end
         end)
-    if (game.active_mods["True-Nukes"]) then
+    if (script.active_mods["True-Nukes"]) then
         commands.add_command("sead_clear_craters", "clears true nuke craters",
             function(Data)
                 game.print("Clearing " .. game.player.surface.name)
