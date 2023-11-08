@@ -216,7 +216,8 @@ if settings.startup[constants.setting_weaponsys].value then
                             type = "show-explosion-on-chart",
                             scale = 8 / 32
                         }
-                    }
+                    },
+                    max_range = 2500
                 }
             },
             final_action =
@@ -289,7 +290,7 @@ if settings.startup[constants.setting_weaponsys].value then
                     starting_frame_speed_deviation = 5
                 }
             }
-        }
+        }--[[@as data.ProjectilePrototype]]
     })
 
     if settings.startup[constants.setting_treesys].value then

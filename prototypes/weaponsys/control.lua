@@ -5,11 +5,6 @@ local utils = require("utils")
 ---@field chunkposition MapPosition.0
 ---@field position MapPosition.0
 ---@field remaining integer
----@field radius integer
----@field octant_n integer
----@field index integer
----@field octant MapPosition.0[]
----@field last MapPosition.0
 ---@field surface LuaSurface
 ---@field force LuaForce
 ---@field tochart BoundingBox[]
@@ -17,6 +12,13 @@ local utils = require("utils")
 ---@field tolaunch MapPosition.0[]
 ---@field phase integer
 ---@field starttick integer
+
+---@class CircleState
+---@field radius integer
+---@field octant_n integer
+---@field index integer
+---@field octant MapPosition.0[]
+---@field last MapPosition.0
 
 function do_on_init()
     ---@type Jericho[]
@@ -39,14 +41,20 @@ function doJerichoOnTick(tick)
     for i = 1, #global.jericho do
         local item = global.jericho[i]
         if (item.phase == 0) then
-            while item.remaining > 0 do
-                doNextJerichoChunk(item)
-            end
+            fillJerichoEnemies(item, "unit-spawner", true)
             item.phase = 1
             goto continue
         elseif (item.phase == 1) then
+            fillJerichoEnemies(item, "turret", false)
+            item.phase = 2
+            goto continue
+        elseif (item.phase == 2) then
+            fillJerichoEnemies(item, "unit", false)
+            item.phase = 3
+            goto continue
+        elseif (item.phase == 3) then
             if (#item.tolaunch == 0) then
-                item.phase = 2
+                item.phase = 4
                 goto continue
             end
             local launch = table.remove(item.tolaunch) --[[@as MapPosition.0]]
@@ -55,7 +63,7 @@ function doJerichoOnTick(tick)
                 name = constants.weapon_jerichopartWH,
                 position = { item.position.x, item.position.y + (tick - item.starttick) * 0.2 },
                 target = launch,
-                force = "player",
+                force = item.force,
                 speed = (100 / 240) / 5,
                 direction = defines.direction.south
             })
@@ -72,10 +80,12 @@ function doJerichoOnTick(tick)
     end
 end
 
+---@param eventdata EventData.on_trigger_created_entity
 function do_on_trigger_created_entity(eventdata)
     if (eventdata.entity.name == constants.weapon_jericholauncher) then
         local launcher = eventdata.entity
         local surface = launcher.surface
+        surface.play_sound({ path = constants.sound_jericho, position = launcher.position })
         local startchunk = {
             x = math.floor(launcher.position.x / 32) * 32,
             y = math.floor(launcher.position.y / 32) * 32
@@ -86,11 +96,6 @@ function do_on_trigger_created_entity(eventdata)
         table.insert(global.jericho, {
             chunkposition = startchunk,
             remaining = remaining,
-            radius = 0,
-            octant = calc_circle_octant(0),
-            octant_n = 0,
-            index = 0,
-            last = nil,
             surface = surface,
             force = force,
             enemies = enemies,
@@ -126,26 +131,46 @@ function GetEnemies(force)
 end
 
 ---@param jericho Jericho
-function doNextJerichoChunk(jericho)
-    local pos = circle_next(jericho)
-    if (pos == nil) then
-        jericho.remaining = 0
+---@param type string
+---@param fill boolean
+function fillJerichoEnemies(jericho, type, fill)
+    if (jericho.remaining == 0) then
         return
     end
-    local x = jericho.chunkposition.x + (pos.x * 32)
-    local y = jericho.chunkposition.y + (pos.y * 32)
-    jericho.surface.play_sound({ path = constants.sound_jericho, position = { x, y } })
-    table.insert(jericho.tochart, { { x, y }, { x + 32, y + 32 } })
-    local enemies = jericho.surface.find_entities_filtered({
-        area = { { x, y }, { x + 32, y + 32 } },
-        force = jericho.enemies,
-        is_military_target = true
-    })
-    for _, value in pairs(enemies) do
-        table.insert(jericho.tolaunch, value.position)
-        jericho.remaining = jericho.remaining - 1
-        if (jericho.remaining == 0) then
+    ---@type CircleState
+    local circlestate = {
+        radius = 0,
+        octant = calc_circle_octant(0),
+        octant_n = 0,
+        index = 0,
+        last = { x = 5, y = 5 }
+    }
+    while jericho.remaining > 0 do
+        ::begin::
+        local pos = circle_next(circlestate)
+        if (pos == nil) then
             return
+        end
+        if (pos.x == circlestate.last.x and pos.y == circlestate.last.y) then
+            goto begin
+        end
+        local x = jericho.chunkposition.x + (pos.x * 32)
+        local y = jericho.chunkposition.y + (pos.y * 32)
+        if (fill) then
+            table.insert(jericho.tochart, { { x, y }, { x + 32, y + 32 } })
+        end
+        local enemies = jericho.surface.find_entities_filtered({
+            area = { { x, y }, { x + 32, y + 32 } },
+            force = jericho.enemies,
+            is_military_target = true,
+            type = type
+        })
+        for _, value in pairs(enemies) do
+            table.insert(jericho.tolaunch, value.position)
+            jericho.remaining = jericho.remaining - 1
+            if (jericho.remaining == 0) then
+                return
+            end
         end
     end
 end
@@ -184,7 +209,7 @@ function calc_circle_octant(radius)
 end
 
 ---comment
----@param state Jericho
+---@param state CircleState
 ---@return MapPosition.0?
 function circle_next(state)
     local band = bit32.band
@@ -244,7 +269,6 @@ function circle_next(state)
     end
     return { x = x, y = y }
 end
-
 
 local weaponsys = {}
 if settings.startup[constants.setting_weaponsys].value then

@@ -51,3 +51,4 @@ These people from Discord who helped me during the development (in no particular
 - Erythion
 - SpeckledFleebeedoo
 - _codegreen
+- stringweasel
