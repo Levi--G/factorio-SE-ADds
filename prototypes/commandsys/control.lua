@@ -140,6 +140,11 @@ if settings.startup[constants.setting_soundsys].value then
                 Count = 0
             } --[[@as ChunkScan]])
     end)
+    commands.add_command("sead_clear_pollution", "clears all pollution from a surface, kinda cheaty - for debug purposes", function(Data)
+        local surface = utils.getSurfaceFromCommand(Data)
+        surface.clear_pollution()
+        game.print("Done clearing pollution on " .. surface.name)
+    end)
 
     commands.add_command("sead_scan_all", "runs all scans immediately",
         function(Data)
@@ -154,10 +159,19 @@ if settings.startup[constants.setting_soundsys].value then
             end
         end)
     if (script.active_mods["True-Nukes"]) then
-        commands.add_command("sead_clear_craters", "clears true nuke craters",
+        commands.add_command("sead_TN_clear_craters", "clears true nukes craters",
             function(Data)
                 game.print("Clearing " .. game.player.surface.name)
                 remote.call("True-Nukes Scripts", "clearAllCraters", game.player.surface)
+            end)
+        commands.add_command("sead_TN_reset", "resets true nukes",
+            function(Data)
+                local glob = remote.call("True-Nukes Scripts", "getGlobal")
+                glob.optimisedNukes = {}
+                glob.blastWaves = {}
+                glob.thermalBlasts = {}
+                remote.call("True-Nukes Scripts", "setGlobal", glob)
+                game.print("Done resetting True Nukes")
             end)
     end
 end
