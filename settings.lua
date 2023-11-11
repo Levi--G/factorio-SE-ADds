@@ -30,5 +30,11 @@ data:extend({
         name = constants.setting_soundsys,
         setting_type = "startup",
         default_value = true
+    },
+    {
+        type = "bool-setting",
+        name = constants.setting_tanksys,
+        setting_type = "startup",
+        default_value = true
     }
 })

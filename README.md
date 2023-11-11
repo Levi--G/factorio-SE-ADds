@@ -33,6 +33,10 @@ This mod also adds alternative recipes for iron ignots and copper ignots from pl
 
 It also adds an alternative FOGBANK recipe to allow creating bigger true nukes earlier at a bigger cost.
 
+## Storage Tanks mk2-4
+
+Extra tanks with extra storage! (made for better train system comatibility)
+
 ## Thanks to
 
 Bio Industries (by TheSAguy) for 2 images/assemblers i used (farm and cokery).

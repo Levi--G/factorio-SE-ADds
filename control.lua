@@ -13,7 +13,7 @@ local events = {}
 
 for _, sys in pairs(subsystems) do
     for eventname, fun in pairs(sys) do
-        log(eventname)
+        -- log(eventname)
         events[eventname] = events[eventname] or {}
         table.insert(events[eventname], fun)
     end

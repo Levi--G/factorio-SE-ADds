@@ -33,5 +33,6 @@ local constants = {
     setting_ingotsys="sead-ingotsys",
     setting_fogbanksys="sead-fogbanksys",
     setting_soundsys="sead-soundsys",
+    setting_tanksys="sead-tanksys",
 }
 return constants
