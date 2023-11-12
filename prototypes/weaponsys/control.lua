@@ -235,7 +235,8 @@ function circle_next(state)
             else
                 octant_n = 0
                 local r = state.radius + 1 --[[@as integer]]
-                if (r > 64) then
+                -- For now 30 chunks seems to be a hard limit for projectiles?
+                if (r > 29) then
                     return nil
                 end
                 state.radius = r

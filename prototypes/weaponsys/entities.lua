@@ -217,7 +217,7 @@ if settings.startup[constants.setting_weaponsys].value then
                             scale = 8 / 32
                         }
                     },
-                    max_range = 2500
+                    max_range = 10000
                 }
             },
             final_action =
