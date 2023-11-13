@@ -216,8 +216,7 @@ if settings.startup[constants.setting_weaponsys].value then
                             type = "show-explosion-on-chart",
                             scale = 8 / 32
                         }
-                    },
-                    max_range = 10000
+                    }
                 }
             },
             final_action =

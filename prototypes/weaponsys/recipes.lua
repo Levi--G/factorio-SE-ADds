@@ -12,7 +12,7 @@ if settings.startup[constants.setting_weaponsys].value then
             energy_required = 10,
             ingredients = {
                 { "rocket-control-unit",               2 },
-                { "explosives",                        80 },
+                { "explosives",                        50 },
                 { "steel-plate",                       20 },
                 { "se-delivery-cannon-weapon-capsule", 1 }
             },
@@ -50,7 +50,7 @@ if settings.startup[constants.setting_weaponsys].value then
                 { "rocket-control-unit",           1 },
                 { "explosives",                    2 },
                 { "se-aeroframe-scaffold",         4 },
-                { constants.weapon_maraudermissle, 100 }
+                { constants.weapon_maraudermissle, 200 }
             },
             result = constants.weapon_jerichomissle,
             result_count = 1,

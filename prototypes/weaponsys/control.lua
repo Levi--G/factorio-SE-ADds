@@ -65,8 +65,9 @@ function doJerichoOnTick(tick)
                 target = launch,
                 force = item.force,
                 speed = (100 / 240) / 5,
-                direction = defines.direction.south
-            })
+                direction = defines.direction.south,
+                max_range = 2500
+            } --[[@as LuaSurface.create_entity_param]])
         else
             if (tick >= item.starttick + 1800) then
                 table.remove(global.jericho, i)
@@ -92,7 +93,7 @@ function do_on_trigger_created_entity(eventdata)
         }
         local force = launcher.force --[[@as LuaForce]]
         local enemies = GetEnemies(force)
-        local remaining = 100
+        local remaining = 200
         table.insert(global.jericho, {
             chunkposition = startchunk,
             remaining = remaining,
@@ -235,8 +236,7 @@ function circle_next(state)
             else
                 octant_n = 0
                 local r = state.radius + 1 --[[@as integer]]
-                -- For now 30 chunks seems to be a hard limit for projectiles?
-                if (r > 29) then
+                if (r > 64) then
                     return nil
                 end
                 state.radius = r
